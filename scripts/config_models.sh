@@ -73,8 +73,12 @@ MODEL_SELECT() {
             TOKENIZER_TYPE="gemini"
             GEMINI_API_KEY=""
             ;;
+        *)
+            MODEL_PATH="${MODEL_DIR}/${MODEL_NAME}"
+            MODEL_TEMPLATE_TYPE="Phi3.1"
+            MODEL_FRAMEWORK="hf"
+            ;;
     esac
-
 
     if [ -z "${TOKENIZER_PATH}" ]; then
         if [ -f ${MODEL_PATH}/tokenizer.model ]; then
@@ -85,7 +89,6 @@ MODEL_SELECT() {
             TOKENIZER_TYPE="hf"
         fi
     fi
-
 
     echo "$MODEL_PATH:$MODEL_TEMPLATE_TYPE:$MODEL_FRAMEWORK:$TOKENIZER_PATH:$TOKENIZER_TYPE:$OPENAI_API_KEY:$GEMINI_API_KEY:$AZURE_ID:$AZURE_SECRET:$AZURE_ENDPOINT"
 }

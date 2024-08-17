@@ -16,18 +16,18 @@
 # container: docker.io/cphsieh/ruler:0.1.0
 # bash run.sh MODEL_NAME BENCHMARK_NAME
 
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 <model_name> $1 <benchmark_name>"
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory>"
     exit 1
 fi
 
 
 # Root Directories
-GPUS="1" # GPU size for tensor_parallel.
-ROOT_DIR="benchmark_root" # the path that stores generated task samples and model predictions.
-MODEL_DIR="../.." # the path that contains individual model folders from HUggingface.
+GPUS="4" # GPU size for tensor_parallel.
+ROOT_DIR="/mnt/models/siyuan/RULER" # the path that stores generated task samples and model predictions.
+MODEL_DIR=$2 # the path that contains individual model folders from HUggingface.
 ENGINE_DIR="." # the path that contains individual engine folders from TensorRT-LLM.
-BATCH_SIZE=1  # increase to improve GPU utilization
+BATCH_SIZE=4  # increase to improve GPU utilization
 
 
 # Model and Tokenizer
