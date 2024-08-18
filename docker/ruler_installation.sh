@@ -22,7 +22,7 @@ pip install packaging
 
 echo "Installing the required Python packages..."
 # pip freeze | grep torch >> requirements.txt
-pip install -r requirements.txt
+pip install -r requirements.txt --no-deps
 
 echo "Installing the TransformerEngine package..."
 
