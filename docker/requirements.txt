@@ -8,7 +8,7 @@ openai
 tiktoken
 tenacity
 transformers
-flash-attn
+flash-attn==2.5.6
 accelerate
 vllm==0.4.0.post1
 huggingface_hub
