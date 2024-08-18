@@ -34,15 +34,15 @@ pip install git+https://github.com/HazyResearch/flash-attention.git#subdirectory
 
 pip install numpy==1.23.5 --no-deps
 pip install huggingface_hub==0.23.2 --no-deps
-pip install nltk --no-deps
-pip install regex --no-deps
+pip install nltk 
+pip install regex 
 pip install yaml
 pip install tqdm
 pip install hydra-core
 pip install omegaconf
 pip install pytorch-lightning 
 
-python -c "import nltk; nltk.download('punkt_tab'); nltk.download('wordnet')"
+
 
 echo "Installation complete."
 cd ../scripts/data/synthetic/json/
