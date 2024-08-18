@@ -52,3 +52,6 @@ bash download_qa_dataset.sh && echo "Downloaded QA dataset"
 
 cd ../../../../
 
+# print currern directory
+echo "Current directory: $(pwd)"
+
