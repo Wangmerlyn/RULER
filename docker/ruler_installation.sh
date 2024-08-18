@@ -21,8 +21,8 @@ pip install Cython
 pip install packaging
 
 echo "Installing the required Python packages..."
-
-pip install --ignore-installed torch torchvision torchaudio -r requirements.txt
+pip freeze | grep torch >> requirements.txt
+pip install -r requirements.txt
 
 echo "Installing the TransformerEngine package..."
 
