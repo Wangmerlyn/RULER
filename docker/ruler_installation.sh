@@ -50,8 +50,8 @@ cd ../scripts/data/synthetic/json/
 python download_paulgraham_essay.py && echo "Downloaded Paul Graham essay dataset"
 bash download_qa_dataset.sh && echo "Downloaded QA dataset"
 
-cd ../../../../
+cd ../../../../scripts
 
-# print currern directory
+# print current directory
 echo "Current directory: $(pwd)"
 
