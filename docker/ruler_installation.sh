@@ -22,7 +22,7 @@ pip install packaging
 
 echo "Installing the required Python packages..."
 
-pip install -r requirements.txt --no-deps
+pip install --ignore-installed torch torchvision torchaudio -r requirements.txt
 
 echo "Installing the TransformerEngine package..."
 
@@ -36,6 +36,11 @@ pip install numpy==1.23.5 --no-deps
 pip install huggingface_hub==0.23.2 --no-deps
 pip install nltk --no-deps
 pip install regex --no-deps
+pip install yaml
+pip install tqdm
+pip install hydra-core
+pip install omegaconf
+pip install pytorch-lightning 
 
 python -c "import nltk; nltk.download('punkt_tab')"
 
