@@ -42,5 +42,11 @@ pip install hydra-core
 pip install omegaconf
 pip install pytorch-lightning 
 
-python -c "import nltk; nltk.download('punkt_tab')"
+python -c "import nltk; nltk.download('punkt_tab'); nltk.download('wordnet')"
+
+echo "Installation complete."
+cd ../scripts/data/synthetic/json/
+# download dataset report success if the download is successful
+python download_paulgraham_essay.py && echo "Downloaded Paul Graham essay dataset"
+bash download_qa_dataset.sh && echo "Downloaded QA dataset"
 
