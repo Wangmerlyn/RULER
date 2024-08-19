@@ -12,6 +12,9 @@ if [[ "$cuda_version" == "11.8" ]]; then
 elif [[ "$cuda_version" == "12.2" ]]; then
     echo "Installing the latest PyTorch version for CUDA 12.2..."
     pip install torch torchvision torchaudio
+elif [[ "$cuda_version" == "12.1" ]]; then
+    echo "Installing the latest PyTorch version for CUDA 12.1..."
+    pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121 
 else
     echo "Installing the latest PyTorch version for CUDA ${cuda_version}... though it may not be compatible."
     pip install torch torchvision torchaudio
@@ -26,12 +29,16 @@ pip install -r requirements.txt
 
 echo "reinstalling torch"
 
+# Install PyTorch
 if [[ "$cuda_version" == "11.8" ]]; then
     echo "Installing PyTorch 2.1.0 for CUDA 11.8..."
     pip install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
 elif [[ "$cuda_version" == "12.2" ]]; then
     echo "Installing the latest PyTorch version for CUDA 12.2..."
     pip install torch torchvision torchaudio
+elif [[ "$cuda_version" == "12.1" ]]; then
+    echo "Installing the latest PyTorch version for CUDA 12.1..."
+    pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121 
 else
     echo "Installing the latest PyTorch version for CUDA ${cuda_version}... though it may not be compatible."
     pip install torch torchvision torchaudio
