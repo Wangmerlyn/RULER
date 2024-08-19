@@ -16,8 +16,8 @@
 # container: docker.io/cphsieh/ruler:0.1.0
 # bash run.sh MODEL_NAME BENCHMARK_NAME
 
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory>"
+if [ $# -ne 4 ]; then
+    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template>"
     exit 1
 fi
 
@@ -42,6 +42,15 @@ if [ -z "${MODEL_PATH}" ]; then
     exit 1
 fi
 
+if [ -n "$4" ]; then
+    MODEL_TEMPLATE_TYPE="$4"
+else
+    MODEL_TEMPLATE_TYPE="Phi3.1"
+fi
+
+echo "MODEL_TEMPLATE:$MODEL_TEMPLATE_TYPE"
+
+echo "$MODEL_PATH:$MODEL_TEMPLATE_TYPE:$MODEL_FRAMEWORK:$TOKENIZER_PATH:$TOKENIZER_TYPE:$OPENAI_API_KEY:$GEMINI_API_KEY:$AZURE_ID:$AZURE_SECRET:$AZURE_ENDPOINT"
 
 export OPENAI_API_KEY=${OPENAI_API_KEY}
 export GEMINI_API_KEY=${GEMINI_API_KEY}
