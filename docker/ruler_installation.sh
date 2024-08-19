@@ -49,7 +49,7 @@ pip install numpy==1.23.5 --no-deps
 pip install huggingface_hub==0.23.2 --no-deps
 pip install nltk==3.8.1 
 pip install regex 
-pip install yaml
+pip install pyyaml
 pip install tqdm
 pip install hydra-core
 pip install omegaconf
