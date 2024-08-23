@@ -16,8 +16,8 @@
 # container: docker.io/cphsieh/ruler:0.1.0
 # bash run.sh MODEL_NAME BENCHMARK_NAME
 
-if [ $# -ne 4 ]; then
-    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template>"
+if [ $# -ne 5 ]; then
+    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template> $4 <batchsize>"
     exit 1
 fi
 
@@ -57,6 +57,10 @@ export GEMINI_API_KEY=${GEMINI_API_KEY}
 export AZURE_API_ID=${AZURE_ID}
 export AZURE_API_SECRET=${AZURE_SECRET}
 export AZURE_API_ENDPOINT=${AZURE_ENDPOINT}
+
+SEQ_LENGTHS=$5
+IFS=',' read -r -a SEQ_LENGTHS <<< "$5"
+echo "SEQ_LENGTHS:${SEQ_LENGTHS[@]}"
 
 
 # Benchmark and Tasks
