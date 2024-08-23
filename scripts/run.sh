@@ -16,8 +16,8 @@
 # container: docker.io/cphsieh/ruler:0.1.0
 # bash run.sh MODEL_NAME BENCHMARK_NAME
 
-if [ $# -ne 5 ]; then
-    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template> $4 <batchsize>"
+if [ $# -ne 6 ]; then
+    echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template> $4 <batchsize> $5 <seq_lengths> $6"
     exit 1
 fi
 
@@ -27,7 +27,7 @@ GPUS="4" # GPU size for tensor_parallel.
 ROOT_DIR="/mnt/models/siyuan/RULER" # the path that stores generated task samples and model predictions.
 MODEL_DIR=$3 # the path that contains individual model folders from HUggingface.
 ENGINE_DIR="." # the path that contains individual engine folders from TensorRT-LLM.
-BATCH_SIZE=4  # increase to improve GPU utilization
+BATCH_SIZE=$5  # increase to improve GPU utilization
 
 echo $MODEL_DIR
 
@@ -58,8 +58,9 @@ export AZURE_API_ID=${AZURE_ID}
 export AZURE_API_SECRET=${AZURE_SECRET}
 export AZURE_API_ENDPOINT=${AZURE_ENDPOINT}
 
-SEQ_LENGTHS=$5
-IFS=',' read -r -a SEQ_LENGTHS <<< "$5"
+echo "BATCHSIZE:$BATCH_SIZE"
+SEQ_LENGTHS=$6
+IFS=',' read -r -a SEQ_LENGTHS <<< "$6"
 echo "SEQ_LENGTHS:${SEQ_LENGTHS[@]}"
 
 
