@@ -24,7 +24,7 @@ fi
 
 # Root Directories
 GPUS="4" # GPU size for tensor_parallel.
-ROOT_DIR="/mnt/models/siyuan/RULER" # the path that stores generated task samples and model predictions.
+ROOT_DIR="/mnt/longcontext/models/siyuan/RULER" # the path that stores generated task samples and model predictions.
 MODEL_DIR=$3 # the path that contains individual model folders from HUggingface.
 ENGINE_DIR="." # the path that contains individual engine folders from TensorRT-LLM.
 BATCH_SIZE=$5  # increase to improve GPU utilization
