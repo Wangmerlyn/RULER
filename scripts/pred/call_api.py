@@ -176,7 +176,7 @@ def get_llm(tokens_to_generate):
             top_k=args.top_k,
             top_p=args.top_p,
             stop=args.stop_words,
-            max_new_tokens=tokens_to_generate,
+            max_new_tokens=8192,
         )
     
     elif args.server_type == 'mamba':
