@@ -44,3 +44,13 @@ synthetic=(
     "qa_1"
     "qa_2"
 )
+think_test=(
+    "niah_single_1"
+    "niah_single_2"
+    "niah_single_3"
+    "niah_multikey_1"
+    "niah_multikey_2"
+    "niah_multikey_3"
+    "qa_1"
+    "qa_2"
+)

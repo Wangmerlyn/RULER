@@ -110,12 +110,12 @@ niah_multikey_3:
 #   args:
 #     alpha: 2.0
 
-# qa_1:
-#   task: qa
-#   args:
-#     dataset: squad
+qa_1:
+  task: qa
+  args:
+    dataset: squad
 
-# qa_2:
-#   task: qa
-#   args:
-#     dataset: hotpotqa
+qa_2:
+  task: qa
+  args:
+    dataset: hotpotqa
