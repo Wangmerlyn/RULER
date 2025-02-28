@@ -30,4 +30,5 @@ Templates = {
     'Phi3': "<|user|>\n{task_template}<|end|>\n<|assistant|>\n",
     'Phi3.1': "<|user|> {task_template} <|end|> <|assistant|>",
     'meta-llama3': "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{task_template}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
+    'llama_distill_r1',: "<｜begin▁of▁sentence｜><｜User｜>{task_template}<｜Assistant｜>",
 }
