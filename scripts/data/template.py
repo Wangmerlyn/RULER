@@ -30,6 +30,6 @@ Templates = {
     'Phi3': "<|user|>\n{task_template}<|end|>\n<|assistant|>\n",
     'Phi3.1': "<|user|> {task_template} <|end|> <|assistant|>",
     'meta-llama3': "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{task_template}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
-    "qwen-math": "<|im_start|>system\nPlease reason step by step, and put your final answer within \\boxed{{}}.<|im_end|>\n<|im_start|>user\n{task_template}<|im_end|>\n<|im_start|>assistant\n",
+    "qwen-math": "<|im_start|>system\nPlease reason step by step, and put your final answer within \\boxed{{{{}}}}.<|im_end|>\n<|im_start|>user\n{task_template}<|im_end|>\n<|im_start|>assistant\n",
     'llama_distill_r1': "<｜begin▁of▁sentence｜><｜User｜>{task_template}<｜Assistant｜>",
 }
