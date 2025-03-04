@@ -72,43 +72,43 @@ niah_multikey_3:
     num_needle_v: 1
     num_needle_q: 1
 
-# niah_multivalue:
-#   task: niah
-#   args:
-#     type_haystack: essay
-#     type_needle_k: words
-#     type_needle_v: numbers
-#     num_needle_k: 1
-#     num_needle_v: 4
-#     num_needle_q: 1
+niah_multivalue:
+  task: niah
+  args:
+    type_haystack: essay
+    type_needle_k: words
+    type_needle_v: numbers
+    num_needle_k: 1
+    num_needle_v: 4
+    num_needle_q: 1
 
-# niah_multiquery:
-#   task: niah
-#   args:
-#     type_haystack: essay
-#     type_needle_k: words
-#     type_needle_v: numbers
-#     num_needle_k: 1
-#     num_needle_v: 1
-#     num_needle_q: 4
+niah_multiquery:
+  task: niah
+  args:
+    type_haystack: essay
+    type_needle_k: words
+    type_needle_v: numbers
+    num_needle_k: 1
+    num_needle_v: 1
+    num_needle_q: 4
 
-# vt:
-#   task: variable_tracking
-#   args:
-#     num_chains: 1
-#     num_hops: 4
+vt:
+  task: variable_tracking
+  args:
+    num_chains: 1
+    num_hops: 4
 
-# cwe:
-#   task: common_words_extraction
-#   args:
-#     freq_cw: 30
-#     freq_ucw: 3
-#     num_cw: 10
+cwe:
+  task: common_words_extraction
+  args:
+    freq_cw: 30
+    freq_ucw: 3
+    num_cw: 10
     
-# fwe:
-#   task: freq_words_extraction
-#   args:
-#     alpha: 2.0
+fwe:
+  task: freq_words_extraction
+  args:
+    alpha: 2.0
 
 qa_1:
   task: qa
