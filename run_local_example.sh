@@ -6,7 +6,7 @@ MODEL_NAME=$(basename $MODEL_PATH)
 MODEL_DIR=$(dirname $MODEL_PATH)
 TEST_LEN="131072"
 export MODEL_FRAMEWORK_EXTRA="vllm"
-
+export VLLM_WORKER_MULTIPROC_METHOD=spawn
 cd ..
 source /opt/conda/etc/profile.d/conda.sh
 conda create --name ruler python=3.10 -y
