@@ -73,6 +73,15 @@ if [ -z "${TASKS}" ]; then
     exit 1
 fi
 
+# check if MODEL_FRAMEWORK_EXTRA is set
+if [ -z "${MODEL_FRAMEWORK_EXTRA}" ]; then
+    echo "MODEL_FRAMEWORK_EXTRA is not set, using default value: hf"
+    MODEL_FRAMEWORK_EXTRA="hf"
+fi
+
+echo "MODEL_FRAMEWORK_EXTRA: $MODEL_FRAMEWORK_EXTRA"
+MODEL_FRAMEWORK=${MODEL_FRAMEWORK_EXTRA}
+
 
 # Start server (you may want to run in other container.)
 if [ "$MODEL_FRAMEWORK" == "vllm" ]; then

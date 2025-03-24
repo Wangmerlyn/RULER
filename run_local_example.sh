@@ -1,3 +1,12 @@
+MODEL_PATH="/mnt/longcontext/models/siyuan/llama3/QwQ-32B-Yarn"
+MODEL_TEMPLATE_TYPE="qwq"
+MODEL_TASK="think_test"
+# get the base name of the model path
+MODEL_NAME=$(basename $MODEL_PATH)
+MODEL_DIR=$(dirname $MODEL_PATH)
+TEST_LEN="131072"
+export MODEL_FRAMEWORK_EXTRA="vllm"
+
 cd ..
 source /opt/conda/etc/profile.d/conda.sh
 conda create --name ruler python=3.10 -y
@@ -60,4 +69,5 @@ which python
 pip install -U tiktoken
 pip list
 export only_last_logits=1
-bash run.sh QwQ-32B-Yarn think_test /mnt/longcontext/models/siyuan/llama3 qwq 4 "131072"
+# bash run.sh QwQ-32B-Yarn think_test /mnt/longcontext/models/siyuan/llama3 qwq 4 "131072"
+bash run.sh $MODEL_NAME $MODEL_TASK $MODEL_DIR $MODEL_TEMPLATE_TYPE 4 $TEST_LEN
