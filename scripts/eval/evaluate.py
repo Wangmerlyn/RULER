@@ -54,6 +54,38 @@ def postprocess_pred(predict_str: str, task_config: dict):
     # Remove all non-printable characters
     np_pattern = re.compile(r'[\x00-\x1f]')
     predict_str = np_pattern.sub('\n', predict_str).strip()
+    ruler_eval_postprocess = os.getenv('RULER_EVAL_POSTPROCESS', None)
+    if ruler_eval_postprocess is not None:
+        print(f"Using RULER_EVAL_POSTPROCESS: {ruler_eval_postprocess}")
+        if ruler_eval_postprocess == "r1":
+            # find <\think> tag and keep the content after it
+            think_pos = predict_str.find('<\\think>')
+            if think_pos != -1:
+                predict_str = predict_str[think_pos + len('<\\think>'):]
+            else:
+                print(f"Warning: <\\think> tag not found in prediction: {predict_str}")
+                # keep the last 128 characters
+                # make sure the length is not larger than 128
+                if len(predict_str) > 128:
+                    predict_str = predict_str[-128:]
+                else:
+                    predict_str = predict_str
+        elif ruler_eval_postprocess == "boxed":
+            boxed_pos = predict_str.find('\\boxed')
+            if boxed_pos != -1:
+                predict_str = predict_str[boxed_pos + len('\\boxed'):]
+            else:
+                print(f"Warning: \\boxed tag not found in prediction: {predict_str}")
+                # keep the last 128 characters
+                # make sure the length is not larger than 128
+                if len(predict_str) > 128:
+                    predict_str = predict_str[-128:]
+                else:
+                    predict_str = predict_str
+        else:
+            print(f"Unknown RULER_EVAL_POSTPROCESS: {ruler_eval_postprocess}. Using default postprocess.")
+    else:
+        print(f"RULER_EVAL_POSTPROCESS is not set. Using default postprocess.")
 
     return predict_str
 
