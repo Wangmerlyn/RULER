@@ -90,7 +90,11 @@ def main():
     task_template = config['template']
 
     # Add answer prefix for all models
-    answer_prefix = config['answer_prefix'] if 'answer_prefix' in config else ''
+    # answer_prefix = config['answer_prefix'] if 'answer_prefix' in config else ''
+    answer_prefix=''
+    if os.getenv('RULER_USE_ANSWER_PREFIX', "0") == "1":
+        answer_prefix = config['answer_prefix'] if 'answer_prefix' in config else ''
+    print(f"using answer prefix: {answer_prefix}")
     config['template'] = model_template.format(task_template=task_template) + answer_prefix
 
     # Split task into multiple chunks 

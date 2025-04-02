@@ -96,6 +96,16 @@ if args.server_type == 'hf' or args.server_type == 'gemini':
 
 
 def get_llm(tokens_to_generate):
+    if os.getenv('RULER_TEMPERATURE', None) is not None:
+        args.temperature = float(os.getenv('RULER_TEMPERATURE'))
+        print(f'Using temperature {args.temperature} from environment variable RULER_TEMPERATURE')
+    else:
+        print(f'Using temperature {args.temperature} from command line argument')
+    if os.getenv('RULER_TOKENS_TO_GENERATE', None) is not None:
+        tokens_to_generate = int(os.getenv('RULER_TOKENS_TO_GENERATE'))
+        print(f'Using tokens_to_generate {tokens_to_generate} from environment variable RULER_TOKENS_TO_GENERATE')
+    else:
+        print(f'Using tokens_to_generate {tokens_to_generate} from command line argument')
     if args.server_type == 'trtllm':
         from client_wrappers import TRTLLMClient
         llm = TRTLLMClient(
