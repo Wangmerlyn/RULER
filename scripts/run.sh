@@ -85,13 +85,28 @@ MODEL_FRAMEWORK=${MODEL_FRAMEWORK_EXTRA}
 
 # Start server (you may want to run in other container.)
 if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
-    python pred/serve_vllm.py \
-        --model=${MODEL_PATH} \
-        --tensor-parallel-size=${GPUS} \
-        --dtype bfloat16 \
-        --disable-custom-all-reduce \
-        --seed 0 \
-        &
+    # Check if the VLLM_FORCE_128K environment variable is set to 'true'
+    if [ "$VLLM_FORCE_128K" == "true" ]; then
+        # If true, add --max-model-len 131072 to the command
+        export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+        python pred/serve_vllm.py \
+            --model=${MODEL_PATH} \
+            --tensor-parallel-size=${GPUS} \
+            --dtype bfloat16 \
+            --disable-custom-all-reduce \
+            --seed 0 \
+            --max-model-len 131072 \
+            &
+    else
+        # If VLLM_FORCE_128K is not 'true', run the command without --max-model-len
+        python pred/serve_vllm.py \
+            --model=${MODEL_PATH} \
+            --tensor-parallel-size=${GPUS} \
+            --dtype bfloat16 \
+            --disable-custom-all-reduce \
+            --seed 0 \
+            &
+    fi
 
 elif [ "$MODEL_FRAMEWORK" == "trtllm" ]; then
     python pred/serve_trt.py \
