@@ -112,7 +112,7 @@ def generate_input_output(num_noises, num_chains, num_hops, is_icl=False):
     context = context.replace(". \n", ".\n")
 
     template = args.template
-    if is_icl and os.getenv('RULER_USE_ANSWER_PREFIX', "0") == "1":
+    if is_icl:
         # remove model template
         cutoff = template.index(TASKS['variable_tracking']['template'][:20])
         cutoff_ans = template.index(TASKS['variable_tracking']['answer_prefix'][:10])
