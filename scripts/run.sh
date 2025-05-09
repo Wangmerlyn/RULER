@@ -89,6 +89,7 @@ if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
     if [ "$VLLM_FORCE_128K" == "true" ]; then
         # If true, add --max-model-len 131072 to the command
         export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+        echo "VLLM_FORCE_128K is set to true, using --max-model-len 131072"
         python pred/serve_vllm.py \
             --model=${MODEL_PATH} \
             --tensor-parallel-size=${GPUS} \
