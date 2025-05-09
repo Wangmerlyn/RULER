@@ -77,7 +77,6 @@ if [ $INSTALL_ENV -eq 1 ]; then
     pip install hydra-core
     pip install omegaconf
     pip install pytorch-lightning
-    pip install huggingface_hub==0.24 --no-deps
     echo "Installation complete."
     cd ../scripts/data/think_test/json/
     python download_paulgraham_essay.py && echo "Downloaded Paul Graham essay dataset"
