@@ -143,6 +143,7 @@ sleep 5
 ls -l
 sleep 5
 python download_nltk.py
+python scripts/download_nltk.py
 which python
 pip install -U tiktoken
 pip list
