@@ -130,7 +130,11 @@ fi
 total_time=0
 for MAX_SEQ_LENGTH in "${SEQ_LENGTHS[@]}"; do
     
-    RESULTS_DIR="${ROOT_DIR}/${MODEL_NAME}/${BENCHMARK}/${MAX_SEQ_LENGTH}"
+    if [ -n "$override_save_name" ]; then
+        RESULTS_DIR="${ROOT_DIR}/${MODEL_NAME}/${override_save_name}/${MAX_SEQ_LENGTH}"
+    else
+        RESULTS_DIR="${ROOT_DIR}/${MODEL_NAME}/${BENCHMARK}/${MAX_SEQ_LENGTH}"
+    fi
     DATA_DIR="${RESULTS_DIR}/data"
     PRED_DIR="${RESULTS_DIR}/pred"
     mkdir -p ${DATA_DIR}
