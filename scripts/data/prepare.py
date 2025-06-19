@@ -95,7 +95,11 @@ def main():
     if os.getenv('RULER_USE_ANSWER_PREFIX', "0") == "1":
         answer_prefix = config['answer_prefix'] if 'answer_prefix' in config else ''
     print(f"using answer prefix: {answer_prefix}")
-    config['template'] = model_template.format(task_template=task_template) + answer_prefix
+    if args.task == "vt":
+        # force vt to use the answer prefix in the icl template
+        config['template'] = model_template.format(task_template=task_template) + config['answer_prefix']
+    else:
+        config['template'] = model_template.format(task_template=task_template) + answer_prefix
 
     # Split task into multiple chunks 
     chunks = [(args.num_samples // args.chunk_amount) + (1 if i < args.num_samples % args.chunk_amount else 0) for i in range(args.chunk_amount)]
@@ -134,10 +138,7 @@ def main():
             print(command)
             result = subprocess.run(command, 
                                     shell=True, 
-                                    check=True, 
-                                    stdout=subprocess.PIPE, 
-                                    stderr=subprocess.PIPE, 
-                                    text=True)
+                                    )
             
             if result.returncode == 0:
                 print("Output:")
