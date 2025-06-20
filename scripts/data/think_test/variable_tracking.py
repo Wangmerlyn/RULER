@@ -113,7 +113,6 @@ def generate_input_output(num_noises, num_chains, num_hops, is_icl=False):
 
     template = args.template
     if is_icl:
-        import pdb; pdb.set_trace()
         # remove model template
         cutoff = template.index(TASKS['variable_tracking']['template'][:20])
         cutoff_ans = template.index(TASKS['variable_tracking']['answer_prefix'][:10])
