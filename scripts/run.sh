@@ -97,6 +97,7 @@ if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
             --disable-custom-all-reduce \
             --seed 0 \
             --max-model-len 131072 \
+            --hf-overrides "{\"max_position_embeddings\": 131072}" \
             &
     else
         # If VLLM_FORCE_128K is not 'true', run the command without --max-model-len
