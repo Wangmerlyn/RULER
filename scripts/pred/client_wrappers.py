@@ -211,6 +211,7 @@ class OpenAIClient:
             'gpt-35-turbo-16k': 16384,
         }
         self.openai_api_key = os.environ["OPENAI_API_KEY"]
+        self.openai_base_url = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
         self.azure_api_id = os.environ["AZURE_API_ID"]
         self.azure_api_secret = os.environ["AZURE_API_SECRET"]
         self.azure_api_endpoint = os.environ["AZURE_API_ENDPOINT"]
@@ -222,8 +223,23 @@ class OpenAIClient:
             if 'gpt-4' in model_name: self.model_name = 'gpt-4'
         
         import tiktoken
-        self.encoding = tiktoken.get_encoding("cl100k_base")
-        self.max_length = model2length[self.model_name]
+        from transformers import AutoTokenizer
+        if "gpt" in model_name or "o1" in model_name or "o3" in model_name:
+            self.encoding = tiktoken.encoding_for_model("gpt-4o-2024-08-06")
+        elif 'deepseek' in model_name.lower() and "distill" not in model_name.lower():
+            tokenizer = AutoTokenizer.from_pretrained(
+                "deepseek-ai/DeepSeek-R1", trust_remote_code=True
+            )
+        elif "qwen" in model_name.lower():
+            tokenizer = AutoTokenizer.from_pretrained(
+                "Qwen/Qwen2.5-7B-Instruct", trust_remote_code=True
+            )
+        elif "llama" in model_name.lower():
+            tokenizer = AutoTokenizer.from_pretrained(
+                "/mnt/longcontext/models/siyuan/llama3/Llama-3.1-8B-Instruct", trust_remote_code=True
+            )
+        # self.max_length = model2length[self.model_name]
+        self.max_length = 128*1024
         self.generation_kwargs = generation_kwargs
         self._create_client()
         
@@ -233,7 +249,8 @@ class OpenAIClient:
         # OpenAI
         if self.openai_api_key:
             self.client = OpenAI(
-                api_key=self.openai_api_key
+                api_key=self.openai_api_key,
+                base_url=self.openai_base_url,
             )
 
         # Azure
@@ -265,7 +282,7 @@ class OpenAIClient:
     def _send_request(self, request):
         try:
             response = self.client.chat.completions.create(
-                model=self.model_name,
+                model_name=self.model_name,
                 messages=request['msgs'],
                 max_tokens=request['tokens_to_generate'],
                 temperature=request['temperature'],
@@ -351,7 +368,7 @@ class GeminiClient:
         }
         
         self.model_name = model_name
-        self.model = self._initialize_model()
+        self.model_name = self._initialize_model()
         self.max_input_length = model2length[model_name][0]
         self.max_output_length = model2length[model_name][1]
         assert generation_kwargs['tokens_to_generate'] < self.max_output_length, \
@@ -378,7 +395,7 @@ class GeminiClient:
     @retry(wait=wait_random_exponential(min=60, max=60), stop=stop_after_attempt(3))
     def _send_request(self, request):
         try:
-            response = self.model.generate_content(request['prompt'], 
+            response = self.model_name.generate_content(request['prompt'], 
                                                    generation_config=request['config'],
                                                    safety_settings=self.safety_settings)
         except Exception as e:
@@ -390,7 +407,7 @@ class GeminiClient:
         self,
         prompt: str,
     ):
-        assert self.model.count_tokens(prompt).total_tokens < self.max_input_length, \
+        assert self.model_name.count_tokens(prompt).total_tokens < self.max_input_length, \
             print(f'input length exceeds {self.max_input_length}')
         
         request = {
