@@ -24,7 +24,7 @@ import requests
 import traceback
 from pathlib import Path
 from typing import List, Tuple, Union
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 from tenacity import (
     retry,
@@ -185,7 +185,7 @@ class SGLClient(Client):
         return outputs
 
 
-class OpenAIClient:
+class OpenAIClient():
     def __init__(
         self,
         model_name,
@@ -218,9 +218,9 @@ class OpenAIClient:
         self.model_name = model_name    
             
         # Azure
-        if self.azure_api_id and self.azure_api_secret:
-            if 'gpt-3.5' in model_name: self.model_name = 'gpt-35-turbo-16k'
-            if 'gpt-4' in model_name: self.model_name = 'gpt-4'
+        # if self.azure_api_id and self.azure_api_secret:
+        #     if 'gpt-3.5' in model_name: self.model_name = 'gpt-35-turbo-16k'
+        #     if 'gpt-4' in model_name: self.model_name = 'gpt-4'
         
         import tiktoken
         from transformers import AutoTokenizer
@@ -238,10 +238,12 @@ class OpenAIClient:
             tokenizer = AutoTokenizer.from_pretrained(
                 "/mnt/longcontext/models/siyuan/llama3/Llama-3.1-8B-Instruct", trust_remote_code=True
             )
+        self.encoding = tokenizer if 'tokenizer' in locals() else tiktoken.encoding_for_model(model_name)
         # self.max_length = model2length[self.model_name]
         self.max_length = 128*1024
         self.generation_kwargs = generation_kwargs
         self._create_client()
+
         
     def _create_client(self,):
         from openai import OpenAI, AzureOpenAI
@@ -282,22 +284,70 @@ class OpenAIClient:
     def _send_request(self, request):
         try:
             response = self.client.chat.completions.create(
-                model_name=self.model_name,
+                model=self.model_name,
                 messages=request['msgs'],
                 max_tokens=request['tokens_to_generate'],
                 temperature=request['temperature'],
                 seed=request['random_seed'],
                 top_p=request['top_p'],
                 stop=request['stop'],
+                stream=False,
             )
         except Exception as e:
             print(f"Error occurred while calling OpenAI: {e}")
+            # print(self.model_name)
+            # print(request)
             if self.azure_api_id and self.azure_api_secret and e.status_code == 401:
                 # token expired
                 self._create_client()
             
         return response
-        
+
+    def process_batch(
+        self,
+        prompts: List[str],
+        max_workers: int = 4,
+        **kwargs,
+    ):
+        """
+        Multi-threaded batch call with order preservation.
+
+        Parameters
+        ----------
+        prompts : List[str]
+            List of input prompts
+        max_workers : int, default 4
+            Number of threads to run concurrently
+        **kwargs :
+            Additional arguments to pass to __call__
+
+        Returns
+        -------
+        List[dict]
+            A list of response dicts, ordered to match the input prompts
+        """
+
+        # Preallocate result list
+        results: List[dict | None] = [None] * len(prompts)
+
+        def _worker(index_and_prompt):
+            idx, prompt = index_and_prompt
+            return idx, self.__call__(prompt, **kwargs)
+
+        # Use thread pool to run tasks concurrently
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Submit tasks and track their futures
+            futures = {
+                executor.submit(_worker, (i, p)): i for i, p in enumerate(prompts)
+            }
+
+            # As each task finishes, write the result back to the correct index
+            for future in as_completed(futures):
+                idx, response = future.result()
+                results[idx] = response
+
+        return results
+
     def __call__(
         self,
         prompt: str,

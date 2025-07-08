@@ -35,6 +35,13 @@ MODEL_SELECT() {
             MODEL_TEMPLATE_TYPE="meta-chat"
             MODEL_FRAMEWORK="vllm"
             ;;
+        gpt-4o-2024-08-06)
+            MODEL_PATH="gpt-4o-2024-08-06"
+            MODEL_TEMPLATE_TYPE="base"
+            MODEL_FRAMEWORK="openai"
+            TOKENIZER_PATH="gpt-4o-2024-08-06"
+            TOKENIZER_TYPE="openai"
+            ;;
         gpt-3.5-turbo)
             MODEL_PATH="gpt-3.5-turbo-0125"
             MODEL_TEMPLATE_TYPE="base"

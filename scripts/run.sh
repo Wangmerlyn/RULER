@@ -18,7 +18,7 @@
 
 if [ $# -ne 6 ]; then
     echo "Usage: $0 <model_name> $1 <benchmark_name> $2 <model_directory> $3 <template> $4 <batchsize> $5 <seq_lengths> $6"
-    exit 1
+    # exit 1
 fi
 
 
@@ -74,13 +74,12 @@ if [ -z "${TASKS}" ]; then
 fi
 
 # check if MODEL_FRAMEWORK_EXTRA is set
-if [ -z "${MODEL_FRAMEWORK_EXTRA}" ]; then
-    echo "MODEL_FRAMEWORK_EXTRA is not set, using default value: hf"
-    MODEL_FRAMEWORK_EXTRA="hf"
+if [ -n "${MODEL_FRAMEWORK_EXTRA}" ]; then
+    MODEL_FRAMEWORK="${MODEL_FRAMEWORK_EXTRA}"
 fi
 
 echo "MODEL_FRAMEWORK_EXTRA: $MODEL_FRAMEWORK_EXTRA"
-MODEL_FRAMEWORK=${MODEL_FRAMEWORK_EXTRA}
+echo "MODEL_FRAMEWORK: $MODEL_FRAMEWORK"
 
 
 # Start server (you may want to run in other container.)

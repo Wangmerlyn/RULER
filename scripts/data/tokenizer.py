@@ -76,7 +76,8 @@ class OpenAITokenizer:
     """
     def __init__(self, model_path="cl100k_base") -> None:
         import tiktoken
-        self.tokenizer = tiktoken.get_encoding(model_path)
+        # self.tokenizer = tiktoken.get_encoding(model_path)
+        self.tokenizer = tiktoken.encoding_for_model(model_path)
 
     def text_to_tokens(self, text: str) -> List[int]:
         tokens = self.tokenizer.encode(text)
