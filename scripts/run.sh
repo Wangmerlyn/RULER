@@ -23,7 +23,11 @@ fi
 
 
 # Root Directories
-GPUS="4" # GPU size for tensor_parallel.
+# check if GPUS is set, if not, set it to 4
+if [ -z "$GPUS" ]; then
+    echo "GPUS is not set, defaulting to 4"
+    GPUS=4
+fi
 ROOT_DIR="/mnt/longcontext/models/siyuan/RULER_think" # the path that stores generated task samples and model predictions.
 MODEL_DIR=$3 # the path that contains individual model folders from HUggingface.
 ENGINE_DIR="." # the path that contains individual engine folders from TensorRT-LLM.
