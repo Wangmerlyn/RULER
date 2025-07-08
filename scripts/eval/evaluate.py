@@ -58,12 +58,12 @@ def postprocess_pred(predict_str: str, task_config: dict):
     if ruler_eval_postprocess is not None:
         print(f"Using RULER_EVAL_POSTPROCESS: {ruler_eval_postprocess}")
         if ruler_eval_postprocess == "r1":
-            # find <\think> tag and keep the content after it
-            think_pos = predict_str.find('<\\think>')
+            # find </think> tag and keep the content after it
+            think_pos = predict_str.find('</think>')
             if think_pos != -1:
-                predict_str = predict_str[think_pos + len('<\\think>'):]
+                predict_str = predict_str[think_pos + len('</think>'):]
             else:
-                print(f"Warning: <\\think> tag not found in prediction: {predict_str}")
+                print(f"Warning: </think> tag not found in prediction: {predict_str}")
                 # keep the last 128 characters
                 # make sure the length is not larger than 128
                 if len(predict_str) > 128:
