@@ -2,6 +2,8 @@
 # bash ruler_local_refine.sh | tee ruler.log
 export MODEL_FRAMEWORK_EXTRA="vllm"
 export VLLM_WORKER_MULTIPROC_METHOD=spawn
+export SUPER_FORCE_138K=true
+export VLLM_FORCE_128K=true
 # use anwser prefix = 1 is for original
 export RULER_USE_ANSWER_PREFIX=0
 export RULER_TEMPERATURE=0.6

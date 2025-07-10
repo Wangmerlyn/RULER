@@ -89,28 +89,60 @@ echo "MODEL_FRAMEWORK: $MODEL_FRAMEWORK"
 # Start server (you may want to run in other container.)
 if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
     # Check if the VLLM_FORCE_128K environment variable is set to 'true'
-    if [ "$VLLM_FORCE_128K" == "true" ]; then
-        # If true, add --max-model-len 131072 to the command
+    # check env var SUPER_FORCE_129K
+    if [ "$SUPER_FORCE_138K" == "true" ]; then
+        # If true, add --max-model-len 141072 to the command
         export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
-        echo "VLLM_FORCE_128K is set to true, using --max-model-len 131072"
-        python pred/serve_vllm.py \
-            --model=${MODEL_PATH} \
-            --tensor-parallel-size=${GPUS} \
-            --dtype bfloat16 \
-            --disable-custom-all-reduce \
-            --seed 0 \
-            --max-model-len 131072 \
-            --hf-overrides "{\"max_position_embeddings\": 131072}" \
-            &
+        echo "SUPER_FORCE_138K is set to true, using --max-model-len 141072"
+        # check if "yarn" in MODEL_PATH.lower(), if so, use --hf-overrides
+        if [[ "${MODEL_PATH,,}" == *"yarn"* ]]; then
+            # If the model is a yarn model, use the yarn rope scaling
+            python pred/serve_vllm.py \
+                --model=${MODEL_PATH} \
+                --tensor-parallel-size=${GPUS} \
+                --dtype bfloat16 \
+                --disable-custom-all-reduce \
+                --seed 0 \
+                --max-model-len 141072 \
+                --hf-overrides  '{"rope_scaling": {"rope_type": "yarn", "factor": 4.0, "original_max_position_embeddings": 35268}}' \
+                &
+        else
+            # If the model is not a yarn model, use the default rope scaling
+            python pred/serve_vllm.py \
+                --model=${MODEL_PATH} \
+                --tensor-parallel-size=${GPUS} \
+                --dtype bfloat16 \
+                --disable-custom-all-reduce \
+                --seed 0 \
+                --max-model-len 141072 \
+                --hf-overrides "{\"max_position_embeddings\": 141072}" \
+                &
+        fi
     else
-        # If VLLM_FORCE_128K is not 'true', run the command without --max-model-len
-        python pred/serve_vllm.py \
-            --model=${MODEL_PATH} \
-            --tensor-parallel-size=${GPUS} \
-            --dtype bfloat16 \
-            --disable-custom-all-reduce \
-            --seed 0 \
-            &
+
+        if [ "$VLLM_FORCE_128K" == "true" ]; then
+            # If true, add --max-model-len 131072 to the command
+            export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
+            echo "VLLM_FORCE_128K is set to true, using --max-model-len 131072"
+            python pred/serve_vllm.py \
+                --model=${MODEL_PATH} \
+                --tensor-parallel-size=${GPUS} \
+                --dtype bfloat16 \
+                --disable-custom-all-reduce \
+                --seed 0 \
+                --max-model-len 131072 \
+                --hf-overrides "{\"max_position_embeddings\": 131072}" \
+                &
+        else
+            # If VLLM_FORCE_128K is not 'true', run the command without --max-model-len
+            python pred/serve_vllm.py \
+                --model=${MODEL_PATH} \
+                --tensor-parallel-size=${GPUS} \
+                --dtype bfloat16 \
+                --disable-custom-all-reduce \
+                --seed 0 \
+                &
+        fi
     fi
 
 elif [ "$MODEL_FRAMEWORK" == "trtllm" ]; then
