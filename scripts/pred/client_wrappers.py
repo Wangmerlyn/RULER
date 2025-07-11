@@ -30,6 +30,7 @@ from tenacity import (
     retry,
     stop_after_attempt,
     wait_random_exponential,
+    stop_never,
 ) 
 
 
@@ -280,7 +281,7 @@ class OpenAIClient():
         num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
         return num_tokens
         
-    @retry(wait=wait_random_exponential(min=15, max=60), stop=stop_after_attempt(3))
+    @retry(wait=wait_random_exponential(min=5, max=60), stop=stop_never)
     def _send_request(self, request):
         try:
             response = self.client.chat.completions.create(
@@ -357,7 +358,7 @@ class OpenAIClient():
         user_assistant_msgs = [{"role": "user", "content": prompt}]
         msgs = system_msg + user_assistant_msgs
         openai_length = self._count_tokens(msgs)
-        request = self.generation_kwargs
+        request = self.generation_kwargs.copy()
         
         tokens_to_generate_new = self.max_length - openai_length
         if tokens_to_generate_new < request['tokens_to_generate']:

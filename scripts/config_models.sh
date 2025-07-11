@@ -42,6 +42,20 @@ MODEL_SELECT() {
             TOKENIZER_PATH="gpt-4o-2024-08-06"
             TOKENIZER_TYPE="openai"
             ;;
+        deepseek-r1-250528-128k)
+            MODEL_PATH="deepseek-r1-250528-128k"
+            MODEL_TEMPLATE_TYPE="llama_distill_r1"
+            MODEL_FRAMEWORK="openai"
+            TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
+            TOKENIZER_TYPE="hf"
+            ;;
+        deepseek-r1-160k)
+            MODEL_PATH="deepseek-r1-160k"
+            MODEL_TEMPLATE_TYPE="llama_distill_r1"
+            MODEL_FRAMEWORK="openai"
+            TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
+            TOKENIZER_TYPE="hf"
+            ;;
         gpt-3.5-turbo)
             MODEL_PATH="gpt-3.5-turbo-0125"
             MODEL_TEMPLATE_TYPE="base"
