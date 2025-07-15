@@ -32,6 +32,7 @@ Templates = {
     'meta-llama3': "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{task_template}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
     "qwen-math": "<|im_start|>system\nPlease reason step by step, and put your final answer within \\boxed{{{{}}}}.<|im_end|>\n<|im_start|>user\n{task_template}<|im_end|>\n<|im_start|>assistant\n",
     'llama_distill_r1': "<｜begin▁of▁sentence｜><｜User｜>{task_template}<｜Assistant｜><think>\\n",
+    "r1_api": "{task_template}\nPut your thinking process inside <think> </think> tags. Your final answer will be extracted automatically after the </think> tag.",
     'qwen': "'<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\n{task_template}<|im_end|>\n<|im_start|>assistant\n'",
     "orz": 'A conversation between User and Assistant. The User asks a question, and the Assistant solves it. The Assistant first thinks about the reasoning process in the mind and then provides the User with the answer. The reasoning process is enclosed within <think> </think> and answer is enclosed within <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. User: You must put your answer inside <answer> </answer> tags, i.e., <answer> answer here </answer>. And your final answer will be extracted automatically by the \\boxed{{{{}}}} tag.\nThis is the problem:\n{task_template}\nAssistant: ',
     'qwq':'<|im_start|>user\n{task_template}<|im_end|>\n<|im_start|>assistant\n<think>\n',

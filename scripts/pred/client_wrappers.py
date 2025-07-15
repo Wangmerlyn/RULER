@@ -26,6 +26,7 @@ from pathlib import Path
 from typing import List, Tuple, Union
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
+from tqdm import tqdm
 from tenacity import (
     retry,
     stop_after_attempt,
@@ -241,7 +242,10 @@ class OpenAIClient():
             )
         self.encoding = tokenizer if 'tokenizer' in locals() else tiktoken.encoding_for_model(model_name)
         # self.max_length = model2length[self.model_name]
-        self.max_length = 128*1024
+        if "gpt" in model_name or "o1" in model_name or "o3" in model_name:
+            self.max_length = 128*1000
+        else:
+            self.max_length = 128*1024
         self.generation_kwargs = generation_kwargs
         self._create_client()
 
@@ -293,6 +297,7 @@ class OpenAIClient():
                 top_p=request['top_p'],
                 stop=request['stop'],
                 stream=False,
+                timeout=20*60,
             )
         except Exception as e:
             print(f"Error occurred while calling OpenAI: {e}")
@@ -307,7 +312,7 @@ class OpenAIClient():
     def process_batch(
         self,
         prompts: List[str],
-        max_workers: int = 4,
+        max_workers: int = 10,
         **kwargs,
     ):
         """
@@ -343,7 +348,8 @@ class OpenAIClient():
             }
 
             # As each task finishes, write the result back to the correct index
-            for future in as_completed(futures):
+            # for future in as_completed(futures):
+            for future in tqdm(as_completed(futures), total=len(prompts), desc="Processing prompts in one batch"):
                 idx, response = future.result()
                 results[idx] = response
 

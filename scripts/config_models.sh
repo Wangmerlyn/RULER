@@ -56,6 +56,13 @@ MODEL_SELECT() {
             TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
             TOKENIZER_TYPE="hf"
             ;;
+        DMXAPI-HuoShan-DeepSeek-R1-671B-64k)
+            MODEL_PATH="DMXAPI-HuoShan-DeepSeek-R1-671B-64k"
+            MODEL_TEMPLATE_TYPE="llama_distill_r1"
+            MODEL_FRAMEWORK="openai"
+            TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
+            TOKENIZER_TYPE="hf"
+            ;;
         gpt-3.5-turbo)
             MODEL_PATH="gpt-3.5-turbo-0125"
             MODEL_TEMPLATE_TYPE="base"

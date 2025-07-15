@@ -12,7 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-NUM_SAMPLES=100
+DEFAULT_NUM_SAMPLES=100
+
+if [[ -n "$RULER_NUM_SAMPLES" && "$RULER_NUM_SAMPLES" -gt 0 ]]; then
+  NUM_SAMPLES=$RULER_NUM_SAMPLES
+else
+  NUM_SAMPLES=$DEFAULT_NUM_SAMPLES
+fi
+
+echo "🔢 NUM_SAMPLES = $NUM_SAMPLES"
 REMOVE_NEWLINE_TAB=false
 STOP_WORDS=""
 
