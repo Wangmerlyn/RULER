@@ -106,7 +106,7 @@ pip install Cython
 pip install packaging
 echo "Installing the required Python packages..."
 pip install nemo_toolkit[all] --user
-pip install numba==0.60.0
+pip install numba==0.61.2
 pip install flask
 pip install flask_restful
 pip install sshtunnel_requests
@@ -115,7 +115,7 @@ pip install wonderwords
 pip install openai
 pip install tiktoken
 pip install tenacity
-pip install transformers
+pip install transformers==4.53.2
 pip install flash-attn
 pip install accelerate
 pip install huggingface_hub
@@ -133,6 +133,7 @@ pip install tqdm
 pip install hydra-core
 pip install omegaconf
 pip install pytorch-lightning
+pip install transformers==4.53.2
 echo "Installation complete."
 cd ../scripts/data/think_test/json/
 python download_paulgraham_essay.py && echo "Downloaded Paul Graham essay dataset"
