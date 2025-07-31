@@ -96,8 +96,8 @@ if [ "$MODEL_FRAMEWORK" == "vllm" ]; then
         echo "SUPER_FORCE_138K is set to true, using --max-model-len 141072"
         # check if "yarn" in MODEL_PATH.lower(), if so, use --hf-overrides
         model_lower="${MODEL_PATH,,}"
-        if [[ "$model_lower" == *"yarn"* || ( "$model_lower" == *"distill"* && "$model_lower" == *"qwen3"* ) ]]; then
-            echo "Matched yarn or distill+qwen3"
+        if [[ "$model_lower" == *"yarn"* || ( "$model_lower" == *"deepseek-r1"* && "$model_lower" == *"qwen3"* ) ]]; then
+            echo "Matched yarn or deepseek distill+qwen3"
             # If the model is a yarn model, use the yarn rope scaling
             python pred/serve_vllm.py \
                 --model=${MODEL_PATH} \
