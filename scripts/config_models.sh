@@ -49,6 +49,13 @@ MODEL_SELECT() {
             TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
             TOKENIZER_TYPE="hf"
             ;;
+        DeepSeek-R1-0528-128K)
+            MODEL_PATH="DeepSeek-R1-0528-128K"
+            MODEL_TEMPLATE_TYPE="nothink"
+            MODEL_FRAMEWORK="openai"
+            TOKENIZER_PATH="deepseek-ai/DeepSeek-R1-0528"
+            TOKENIZER_TYPE="hf"
+            ;;
         deepseek-r1-160k)
             MODEL_PATH="deepseek-r1-160k"
             MODEL_TEMPLATE_TYPE="llama_distill_r1"
